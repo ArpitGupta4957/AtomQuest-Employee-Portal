@@ -164,7 +164,11 @@ class _SideNav extends StatelessWidget {
             icon: Icons.groups_outlined,
             label: 'Team',
             isSelected: currentIndex == 2,
-            onTap: () {}, // Not implemented in this demo path
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Team directory coming soon!')),
+              );
+            },
           ),
           _NavItem(
             icon: Icons.person_outline,
@@ -177,11 +181,11 @@ class _SideNav extends StatelessWidget {
           const Divider(),
           _NavItem(
             icon: Icons.logout,
-            label: 'Exit Demo',
+            label: 'Sign Out',
             isSelected: false,
             onTap: () {
               context.read<AuthProvider>().logout();
-              context.go('/role-select');
+              context.go('/login');
             },
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -286,7 +290,11 @@ class _BottomNav extends StatelessWidget {
                 activeIcon: Icons.groups,
                 label: 'Team',
                 isSelected: currentIndex == 2,
-                onTap: () {},
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Team directory coming soon!')),
+                  );
+                },
               ),
               _BottomNavItem(
                 icon: Icons.person_outline,

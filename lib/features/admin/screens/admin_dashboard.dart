@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../core/providers/goal_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -10,6 +12,11 @@ class AdminDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDesktop = MediaQuery.of(context).size.width >= 1024;
+    final goalProvider = context.watch<GoalProvider>();
+    
+    final totalGoals = goalProvider.goals.length;
+    final avgProgress = goalProvider.overallProgress.toStringAsFixed(0);
+    final sharedGoals = goalProvider.goals.where((g) => g.isShared).length;
     
     return SingleChildScrollView(
       padding: EdgeInsets.all(isDesktop ? AppSpacing.marginDesktop : AppSpacing.marginMobile),
@@ -24,12 +31,12 @@ class AdminDashboard extends StatelessWidget {
             
             // KPIs
             Row(
-              children: const [
-                Expanded(child: KpiCard(title: 'Total Goals', value: '1,245', icon: Icons.track_changes)),
-                SizedBox(width: AppSpacing.md),
-                Expanded(child: KpiCard(title: 'Avg. Progress', value: '68%', icon: Icons.trending_up, iconBgColor: AppColors.successMuted, iconColor: AppColors.successDeep)),
-                SizedBox(width: AppSpacing.md),
-                Expanded(child: KpiCard(title: 'Shared Goals', value: '4', icon: Icons.share)),
+              children: [
+                Expanded(child: KpiCard(title: 'Total Goals', value: totalGoals.toString(), icon: Icons.track_changes)),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(child: KpiCard(title: 'Avg. Progress', value: '$avgProgress%', icon: Icons.trending_up, iconBgColor: AppColors.successMuted, iconColor: AppColors.successDeep)),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(child: KpiCard(title: 'Shared Goals', value: sharedGoals.toString(), icon: Icons.share)),
               ],
             ),
             const SizedBox(height: 48),

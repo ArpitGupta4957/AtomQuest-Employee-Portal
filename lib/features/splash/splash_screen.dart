@@ -27,15 +27,24 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _fadeIn = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0.0, 0.4, curve: Curves.easeOut)),
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
+      ),
     );
 
     _slideUp = Tween<double>(begin: 30, end: 0).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0.1, 0.5, curve: Curves.easeOutCubic)),
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.1, 0.5, curve: Curves.easeOutCubic),
+      ),
     );
 
     _progressWidth = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0.3, 0.85, curve: Curves.easeInOut)),
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.3, 0.85, curve: Curves.easeInOut),
+      ),
     );
 
     _controller.forward();
@@ -91,9 +100,7 @@ class _SplashScreenState extends State<SplashScreen>
                           decoration: BoxDecoration(
                             color: AppColors.surface,
                             borderRadius: BorderRadius.circular(24),
-                            border: Border.all(
-                              color: AppColors.surfaceVariant,
-                            ),
+                            border: Border.all(color: AppColors.surfaceVariant),
                             boxShadow: const [
                               BoxShadow(
                                 color: Color(0x0A1F2937),
@@ -131,7 +138,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                         // Title
                         Text(
-                          'AtomQuest Hackathon 1.0',
+                          'AtomQuest - Employee Goal Tracking',
                           style: AppTypography.headlineLgMobile.copyWith(
                             color: AppColors.onSurface,
                           ),

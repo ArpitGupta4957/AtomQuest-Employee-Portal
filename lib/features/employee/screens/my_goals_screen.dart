@@ -31,23 +31,32 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
   Widget build(BuildContext context) {
     final goalProvider = context.watch<GoalProvider>();
     final isDesktop = MediaQuery.of(context).size.width >= 1024;
-    
+
     // Filter goals
     var displayGoals = goalProvider.goals;
     if (_selectedStatusFilter != null) {
-      displayGoals = displayGoals.where((g) => g.status == _selectedStatusFilter).toList();
+      displayGoals = displayGoals
+          .where((g) => g.status == _selectedStatusFilter)
+          .toList();
     }
     if (_searchQuery.isNotEmpty) {
-      displayGoals = displayGoals.where((g) => 
-        g.title.toLowerCase().contains(_searchQuery.toLowerCase()) || 
-        g.description.toLowerCase().contains(_searchQuery.toLowerCase())
-      ).toList();
+      displayGoals = displayGoals
+          .where(
+            (g) =>
+                g.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+                g.description.toLowerCase().contains(
+                  _searchQuery.toLowerCase(),
+                ),
+          )
+          .toList();
     }
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(isDesktop ? AppSpacing.marginDesktop : AppSpacing.marginMobile),
+        padding: EdgeInsets.all(
+          isDesktop ? AppSpacing.marginDesktop : AppSpacing.marginMobile,
+        ),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: AppSpacing.containerMax),
           child: Column(
@@ -58,24 +67,29 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'My Goals',
-                        style: (isDesktop ? AppTypography.headlineLg : AppTypography.headlineLgMobile).copyWith(
-                          color: AppColors.onBackground,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'My Goals',
+                          style:
+                              (isDesktop
+                                      ? AppTypography.headlineLg
+                                      : AppTypography.headlineLgMobile)
+                                  .copyWith(color: AppColors.onBackground),
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Manage and track your individual performance objectives.',
-                        style: AppTypography.bodyLg.copyWith(
-                          color: AppColors.onSurfaceVariant,
+                        const SizedBox(height: 4),
+                        Text(
+                          'Manage and track your individual performance objectives.',
+                          style: AppTypography.bodyLg.copyWith(
+                            color: AppColors.onSurfaceVariant,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                  const SizedBox(width: 16),
                   ElevatedButton.icon(
                     onPressed: () => context.go('/employee/goals/create'),
                     icon: const Icon(Icons.add, size: 18),
@@ -83,7 +97,10 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryContainer,
                       foregroundColor: AppColors.textCharcoal,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
                     ),
                   ),
                 ],
@@ -93,19 +110,34 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
               // ── Filters & Stats ──
               Row(
                 children: [
-                  _buildFilterChip('All', null),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('Draft', GoalStatus.draft),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('In Progress', GoalStatus.inProgress),
-                  const SizedBox(width: 8),
-                  _buildFilterChip('Pending Approval', GoalStatus.pendingApproval),
-                  const Spacer(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          _buildFilterChip('All', null),
+                          const SizedBox(width: 8),
+                          _buildFilterChip('Draft', GoalStatus.draft),
+                          const SizedBox(width: 8),
+                          _buildFilterChip(
+                            'In Progress',
+                            GoalStatus.inProgress,
+                          ),
+                          const SizedBox(width: 8),
+                          _buildFilterChip(
+                            'Pending Approval',
+                            GoalStatus.pendingApproval,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
                   Text(
                     'Total Weightage: ${goalProvider.totalWeightage.toInt()}% / 100%',
                     style: AppTypography.labelMd.copyWith(
-                      color: goalProvider.totalWeightage == 100 
-                          ? AppColors.successDeep 
+                      color: goalProvider.totalWeightage == 100
+                          ? AppColors.successDeep
                           : AppColors.warningDeep,
                     ),
                   ),
@@ -118,7 +150,10 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                 controller: _searchController,
                 decoration: InputDecoration(
                   hintText: 'Search goals by title or description...',
-                  prefixIcon: const Icon(Icons.search, color: AppColors.textMuted),
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: AppColors.textMuted,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                     borderSide: const BorderSide(color: AppColors.surfaceDim),
@@ -139,14 +174,16 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
                 const EmptyStateWidget(
                   icon: Icons.track_changes_outlined,
                   title: 'No goals found',
-                  subtitle: 'Create a new goal to start tracking your performance.',
+                  subtitle:
+                      'Create a new goal to start tracking your performance.',
                 )
               else
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: displayGoals.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.md),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: AppSpacing.md),
                   itemBuilder: (context, index) {
                     final goal = displayGoals[index];
                     return _GoalListItem(
@@ -175,7 +212,9 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
       backgroundColor: AppColors.surfaceWhite,
       selectedColor: AppColors.primaryContainer,
       labelStyle: AppTypography.labelSm.copyWith(
-        color: isSelected ? AppColors.onPrimaryContainer : AppColors.onSurfaceVariant,
+        color: isSelected
+            ? AppColors.onPrimaryContainer
+            : AppColors.onSurfaceVariant,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSpacing.radiusFull),
@@ -189,7 +228,8 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
 }
 
 class _GoalListItem extends StatefulWidget {
-  final dynamic goal; // Uses dynamic here to avoid importing specific model file if there are conflicts, but we'll cast it conceptually
+  final dynamic
+  goal; // Uses dynamic here to avoid importing specific model file if there are conflicts, but we'll cast it conceptually
   final VoidCallback onTap;
 
   const _GoalListItem({required this.goal, required this.onTap});
@@ -215,7 +255,9 @@ class _GoalListItemState extends State<_GoalListItem> {
             color: AppColors.surfaceWhite,
             borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
             border: Border.all(
-              color: _isHovered ? AppColors.primaryContainer : AppColors.surfaceContainer,
+              color: _isHovered
+                  ? AppColors.primaryContainer
+                  : AppColors.surfaceContainer,
               width: _isHovered ? 2 : 1,
             ),
             boxShadow: [
@@ -238,12 +280,14 @@ class _GoalListItemState extends State<_GoalListItem> {
                   borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
                 ),
                 child: Icon(
-                  widget.goal.isShared ? Icons.share_outlined : Icons.flag_outlined,
+                  widget.goal.isShared
+                      ? Icons.share_outlined
+                      : Icons.flag_outlined,
                   color: AppColors.onSurfaceVariant,
                 ),
               ),
               const SizedBox(width: AppSpacing.lg),
-              
+
               // Main Content
               Expanded(
                 child: Column(
@@ -267,30 +311,44 @@ class _GoalListItemState extends State<_GoalListItem> {
                     const SizedBox(height: 8),
                     Text(
                       widget.goal.description,
-                      style: AppTypography.bodyMd.copyWith(color: AppColors.onSurfaceVariant),
+                      style: AppTypography.bodyMd.copyWith(
+                        color: AppColors.onSurfaceVariant,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 16),
-                    Row(
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         _buildMetaBadge('Weightage: ${widget.goal.weightage}%'),
-                        const SizedBox(width: 8),
-                        _buildMetaBadge('Target: ${widget.goal.target} ${widget.goal.uomType.name}'),
-                        const SizedBox(width: 8),
-                        _buildMetaBadge('Due: ${DateFormat('MMM d').format(widget.goal.targetDate)}'),
+                        _buildMetaBadge(
+                          'Target: ${widget.goal.target} ${widget.goal.uomType.name}',
+                        ),
+                        _buildMetaBadge(
+                          'Due: ${DateFormat('MMM d').format(widget.goal.targetDate)}',
+                        ),
                         if (widget.goal.isShared) ...[
-                          const Spacer(),
-                          const Icon(Icons.people, size: 16, color: AppColors.primary),
-                          const SizedBox(width: 4),
-                          Text('Shared', style: AppTypography.labelSm.copyWith(color: AppColors.primary)),
+                          const Icon(
+                            Icons.people,
+                            size: 16,
+                            color: AppColors.primary,
+                          ),
+                          Text(
+                            'Shared',
+                            style: AppTypography.labelSm.copyWith(
+                              color: AppColors.primary,
+                            ),
+                          ),
                         ],
                       ],
                     ),
                   ],
                 ),
               ),
-              
+
               // Progress
               const SizedBox(width: AppSpacing.xl),
               SizedBox(
@@ -301,14 +359,18 @@ class _GoalListItemState extends State<_GoalListItem> {
                   children: [
                     Text(
                       '${widget.goal.progressPercent.toInt()}%',
-                      style: AppTypography.headlineMd.copyWith(color: AppColors.onBackground),
+                      style: AppTypography.headlineMd.copyWith(
+                        color: AppColors.onBackground,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     AppProgressBar(progress: widget.goal.progressPercent),
                     const SizedBox(height: 8),
                     Text(
                       'Achieved',
-                      style: AppTypography.labelSm.copyWith(color: AppColors.textMuted),
+                      style: AppTypography.labelSm.copyWith(
+                        color: AppColors.textMuted,
+                      ),
                     ),
                   ],
                 ),
@@ -329,7 +391,10 @@ class _GoalListItemState extends State<_GoalListItem> {
       ),
       child: Text(
         text,
-        style: AppTypography.bodySm.copyWith(color: AppColors.textMuted, fontSize: 11),
+        style: AppTypography.bodySm.copyWith(
+          color: AppColors.textMuted,
+          fontSize: 11,
+        ),
       ),
     );
   }

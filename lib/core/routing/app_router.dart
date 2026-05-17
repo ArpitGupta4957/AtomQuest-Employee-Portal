@@ -4,7 +4,7 @@ import '../providers/auth_provider.dart';
 import '../models/enums.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../features/auth/login_screen.dart';
-import '../../features/auth/role_selection_screen.dart';
+
 import '../../features/employee/employee_shell.dart';
 import '../../features/employee/screens/employee_dashboard.dart';
 import '../../features/employee/screens/my_goals_screen.dart';
@@ -35,12 +35,9 @@ class AppRouter {
         final isAuth = authProvider.isAuthenticated;
         final isLoggingIn = state.matchedLocation == '/login';
         final isSplash = state.matchedLocation == '/splash';
-        final isRoleSelect = state.matchedLocation == '/role-select';
-
         if (isSplash) return null;
-        if (isRoleSelect && !isAuth) return null;
         if (!isAuth && !isLoggingIn) return '/login';
-        if (isAuth && (isLoggingIn || isRoleSelect)) {
+        if (isAuth && isLoggingIn) {
           switch (authProvider.currentRole) {
             case UserRole.employee:
               return '/employee';
@@ -66,10 +63,7 @@ class AppRouter {
           path: '/login',
           builder: (context, state) => const LoginScreen(),
         ),
-        GoRoute(
-          path: '/role-select',
-          builder: (context, state) => const RoleSelectionScreen(),
-        ),
+
 
         // ── Employee Module ──
         ShellRoute(

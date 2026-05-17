@@ -7,7 +7,7 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/providers/auth_provider.dart';
 import '../../../core/providers/goal_provider.dart';
-import '../../../core/data/demo_data.dart';
+
 import '../../../core/widgets/shared_widgets.dart';
 
 class EmployeeDashboard extends StatefulWidget {
@@ -21,7 +21,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
   @override
   void initState() {
     super.initState();
-    // Initialize goals for demo user if not already done
+    // Initialize goals for user if not already done
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final auth = context.read<AuthProvider>();
       if (auth.currentUser != null) {
@@ -256,7 +256,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
   }
 
   Widget _buildCurrentFocusCard(GoalProvider provider, BuildContext context) {
-    // Just grab the first shared goal or highly weighted goal for demo
+    // Grab the most important active goal
     final currentFocus = provider.goals.isNotEmpty ? provider.goals.first : null;
     
     if (currentFocus == null) {
@@ -397,8 +397,6 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
   }
 
   Widget _buildRecentActivity() {
-    final activities = DemoData.recentActivity;
-    
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
@@ -406,84 +404,14 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
         borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
         border: Border.all(color: AppColors.surfaceContainer),
       ),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: activities.length,
-        itemBuilder: (context, index) {
-          final activity = activities[index];
-          final isLast = index == activities.length - 1;
-          
-          Color iconBg;
-          Color iconColor;
-          IconData iconData;
-          
-          switch (activity.icon) {
-            case 'check_circle':
-              iconBg = AppColors.primaryContainer;
-              iconColor = AppColors.onPrimaryContainer;
-              iconData = Icons.check_circle_outline;
-              break;
-            case 'comment':
-              iconBg = AppColors.secondaryContainer;
-              iconColor = AppColors.onSecondaryContainer;
-              iconData = Icons.chat_bubble_outline;
-              break;
-            case 'upload_file':
-            default:
-              iconBg = AppColors.surfaceContainerHighest;
-              iconColor = AppColors.onSurfaceVariant;
-              iconData = Icons.upload_file_outlined;
-          }
-          
-          return IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: iconBg,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.surfaceWhite, width: 4),
-                      ),
-                      child: Icon(iconData, size: 16, color: iconColor),
-                    ),
-                    if (!isLast)
-                      Expanded(
-                        child: Container(
-                          width: 2,
-                          color: AppColors.surfaceContainer,
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          activity.title,
-                          style: AppTypography.bodySm.copyWith(color: AppColors.onBackground),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          _timeAgo(activity.timestamp),
-                          style: AppTypography.labelSm.copyWith(color: AppColors.textMuted),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: Text(
+            'No recent activity.',
+            style: AppTypography.bodyMd.copyWith(color: AppColors.onSurfaceVariant),
+          ),
+        ),
       ),
     );
   }

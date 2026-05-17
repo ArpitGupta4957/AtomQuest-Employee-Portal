@@ -23,8 +23,7 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final auth = context.read<AuthProvider>();
       if (auth.currentUser != null) {
-        // In a real app, this would fetch the manager's team goals
-        // For demo, we just use the existing goals but focus on pending ones
+        // We use the existing goals but focus on pending ones
         context.read<GoalProvider>().initializeForUser(auth.currentUser!.id);
       }
     });
@@ -35,8 +34,10 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
     final goalProvider = context.watch<GoalProvider>();
     final isDesktop = MediaQuery.of(context).size.width >= 1024;
     
-    // For demo purposes, we will treat 'pendingApproval' goals as team goals needing action
+    // We will treat 'pendingApproval' goals as team goals needing action
     final pendingGoals = goalProvider.goals.where((g) => g.status == GoalStatus.pendingApproval).toList();
+    final avgCompletion = goalProvider.overallProgress.toStringAsFixed(0);
+    final uniqueEmployees = goalProvider.goals.map((g) => g.employeeId).toSet().length;
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(isDesktop ? AppSpacing.marginDesktop : AppSpacing.marginMobile),
@@ -74,10 +75,10 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
                   ),
                 ),
                 const SizedBox(width: AppSpacing.md),
-                const Expanded(
+                Expanded(
                   child: KpiCard(
                     title: 'Team Performance',
-                    value: '78%',
+                    value: '$avgCompletion%',
                     subtitle: 'Avg. Completion',
                     icon: Icons.trending_up,
                     iconBgColor: AppColors.successMuted,
@@ -86,10 +87,10 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
                 ),
                 if (isDesktop) ...[
                   const SizedBox(width: AppSpacing.md),
-                  const Expanded(
+                  Expanded(
                     child: KpiCard(
-                      title: 'Direct Reports',
-                      value: '12',
+                      title: 'Team Members',
+                      value: uniqueEmployees.toString(),
                       subtitle: 'Active Members',
                       icon: Icons.people_outline,
                     ),
@@ -124,7 +125,7 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
                     ),
                     child: Row(
                       children: [
-                        const UserAvatar(name: 'Employee Name'),
+                        const UserAvatar(name: 'Team Member'),
                         const SizedBox(width: AppSpacing.md),
                         Expanded(
                           child: Column(

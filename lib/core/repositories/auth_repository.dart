@@ -32,6 +32,4 @@ class AuthRepository {
     }
   }
 
-  // Note: For hackathon demo mode, we might bypass actual auth 
-  // and just fetch a specific demo user directly.
 }

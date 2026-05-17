@@ -17,8 +17,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController(text: 'sarah.jenkins@atomberg.com');
-  final _passwordController = TextEditingController(text: 'demo1234');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _rememberMe = false;
   String? _errorMessage;
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _passwordController.text.trim(),
     );
     if (!success && mounted) {
-      setState(() => _errorMessage = 'Invalid credentials. Try a demo email.');
+      setState(() => _errorMessage = 'Invalid credentials. Please check your email and password.');
     }
   }
 
@@ -360,28 +360,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                           ),
                         ),
-                        const SizedBox(height: 16),
 
-                        // ── Demo Mode Button ──
-                        SizedBox(
-                          width: double.infinity,
-                          height: 48,
-                          child: OutlinedButton(
-                            onPressed: () => context.go('/role-select'),
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(color: AppColors.surfaceDim),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                              ),
-                            ),
-                            child: Text(
-                              'Enter Demo Mode',
-                              style: AppTypography.labelMd.copyWith(
-                                color: AppColors.textCharcoal,
-                              ),
-                            ),
-                          ),
-                        ),
 
                         const SizedBox(height: 48),
 

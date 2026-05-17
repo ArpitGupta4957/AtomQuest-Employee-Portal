@@ -440,10 +440,14 @@ class SectionHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: AppTypography.headlineMd.copyWith(
-              color: AppColors.onBackground,
+          Expanded(
+            child: Text(
+              title,
+              style: AppTypography.headlineMd.copyWith(
+                color: AppColors.onBackground,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
           ),
           if (trailing != null) trailing!,

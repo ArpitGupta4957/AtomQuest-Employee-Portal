@@ -64,61 +64,6 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Hackathon Feature: Instant Role Switching 
-  /// (This simulates logging in without passwords by directly fetching a profile)
-  /// Note: RLS policies might block this if not authenticated, so for a true hackathon 
-  /// demo, you might need to bypass RLS or use a dummy auth token.
-  Future<void> switchRole(UserRole role) async {
-    _isLoading = true;
-    notifyListeners();
-
-    try {
-      // Fetch any user with the requested role
-      final response = await Supabase.instance.client
-          .from('users')
-          .select()
-          .eq('role', role.name)
-          .limit(1)
-          .maybeSingle();
-
-      if (response != null) {
-        _currentUser = AppUser(
-          id: response['id'],
-          name: response['name'],
-          email: response['email'],
-          role: role,
-          department: response['department_id'] ?? 'Demo Dept',
-          designation: response['designation'],
-          joinedDate: DateTime.parse(response['joined_date']),
-        );
-      } else {
-        // Fallback for Hackathon: Use purely mock data if DB is empty
-        _currentUser = AppUser(
-          id: 'demo-${role.name}',
-          name: 'Demo ${role.name.capitalize()}',
-          email: 'demo@atomberg.com',
-          role: role,
-          department: 'Productivity',
-          designation: 'Staff',
-          joinedDate: DateTime.now().subtract(const Duration(days: 365)),
-        );
-      }
-    } catch (e) {
-      print('Role switch error, falling back to mock user: $e');
-      _currentUser = AppUser(
-        id: 'demo-${role.name}',
-        name: 'Demo ${role.name.capitalize()}',
-        email: 'demo@atomberg.com',
-        role: role,
-        department: 'Productivity',
-        designation: 'Staff',
-        joinedDate: DateTime.now().subtract(const Duration(days: 365)),
-      );
-    }
-
-    _isLoading = false;
-    notifyListeners();
-  }
 }
 
 extension StringExtension on String {
