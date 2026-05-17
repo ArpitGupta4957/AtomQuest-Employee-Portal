@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dart:html' as html;
 import '../../../core/services/supabase_service.dart';
+import '../../../core/utils/csv_downloader.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -108,13 +108,8 @@ class _AchievementReportScreenState extends State<AchievementReportScreen> {
       }
 
       final csvContent = buffer.toString();
-      final bytes = csvContent.codeUnits;
-      final blob = html.Blob([bytes], 'text/csv');
-      final url = html.Url.createObjectUrlFromBlob(blob);
-      final anchor = html.AnchorElement(href: url)
-        ..setAttribute('download', 'achievement_report_${DateFormat('yyyyMMdd').format(DateTime.now())}.csv')
-        ..click();
-      html.Url.revokeObjectUrl(url);
+      final fileName = 'achievement_report_${DateFormat('yyyyMMdd').format(DateTime.now())}.csv';
+      downloadCsvFile(csvContent, fileName);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('✅ CSV exported successfully!'), backgroundColor: Colors.green),

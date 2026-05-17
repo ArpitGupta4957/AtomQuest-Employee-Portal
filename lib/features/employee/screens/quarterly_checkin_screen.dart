@@ -84,7 +84,7 @@ class _QuarterlyCheckinScreenState extends State<QuarterlyCheckinScreen> {
                   ),
                 ),
                 Text(
-                  'Target: ${goal.target} ${goal.uomType.name}',
+                  'Target: ${goal.target} ${goal.uomType.shortLabel}',
                   style: AppTypography.bodyMd.copyWith(
                     color: AppColors.textMuted,
                   ),

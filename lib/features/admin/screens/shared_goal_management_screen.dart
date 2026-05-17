@@ -144,7 +144,7 @@ class _SharedGoalManagementScreenState
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      'Target: ${goal.target} ${goal.uomType.name}',
+                                      'Target: ${goal.target} ${goal.uomType.shortLabel}',
                                       style: AppTypography.labelSm,
                                     ),
                                   ],

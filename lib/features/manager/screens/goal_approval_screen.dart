@@ -113,7 +113,7 @@ class _GoalApprovalScreenState extends State<GoalApprovalScreen> {
                             ),
                           ),
                           const SizedBox(width: 32),
-                          _buildMetric('Target', '${goal.target} ${goal.uomType.name}'),
+                          _buildMetric('Target', '${goal.target} ${goal.uomType.shortLabel}'),
                           const SizedBox(width: 32),
                           _buildMetric('UoM', goal.uomType.label),
                         ],

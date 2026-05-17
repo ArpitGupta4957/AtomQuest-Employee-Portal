@@ -6,6 +6,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/providers/goal_provider.dart';
+import '../../../core/models/enums.dart';
 import '../../../core/widgets/shared_widgets.dart';
 
 class GoalDetailScreen extends StatelessWidget {
@@ -87,7 +88,7 @@ class GoalDetailScreen extends StatelessWidget {
                           Expanded(
                             child: _buildMetric(
                               'Target',
-                              '${goal.target} ${goal.uomType.name}',
+                              '${goal.target} ${goal.uomType.shortLabel}',
                             ),
                           ),
                           Expanded(

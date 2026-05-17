@@ -7,6 +7,7 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/providers/goal_provider.dart';
 import '../../../core/models/enums.dart';
+import '../../../core/models/models.dart';
 import '../../../core/widgets/shared_widgets.dart';
 
 class MyGoalsScreen extends StatefulWidget {
@@ -228,8 +229,7 @@ class _MyGoalsScreenState extends State<MyGoalsScreen> {
 }
 
 class _GoalListItem extends StatefulWidget {
-  final dynamic
-  goal; // Uses dynamic here to avoid importing specific model file if there are conflicts, but we'll cast it conceptually
+  final Goal goal;
   final VoidCallback onTap;
 
   const _GoalListItem({required this.goal, required this.onTap});
@@ -325,7 +325,7 @@ class _GoalListItemState extends State<_GoalListItem> {
                       children: [
                         _buildMetaBadge('Weightage: ${widget.goal.weightage}%'),
                         _buildMetaBadge(
-                          'Target: ${widget.goal.target} ${widget.goal.uomType.name}',
+                          'Target: ${widget.goal.target} ${widget.goal.uomType.shortLabel}',
                         ),
                         _buildMetaBadge(
                           'Due: ${DateFormat('MMM d').format(widget.goal.targetDate)}',

@@ -23,8 +23,8 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final auth = context.read<AuthProvider>();
       if (auth.currentUser != null) {
-        // We use the existing goals but focus on pending ones
-        context.read<GoalProvider>().initializeForUser(auth.currentUser!.id);
+        // Load the TEAM's goals, not the manager's own goals
+        context.read<GoalProvider>().initializeForManager(auth.currentUser!.id);
       }
     });
   }
@@ -121,11 +121,15 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
                     decoration: BoxDecoration(
                       color: AppColors.surfaceWhite,
                       borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-                      border: Border.all(color: AppColors.surfaceContainer),
+                      border: Border.all(color: AppColors.warningMuted),
                     ),
                     child: Row(
                       children: [
-                        const UserAvatar(name: 'Team Member'),
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(color: AppColors.warningMuted, borderRadius: BorderRadius.circular(8)),
+                          child: const Icon(Icons.pending_actions, color: AppColors.warningDeep),
+                        ),
                         const SizedBox(width: AppSpacing.md),
                         Expanded(
                           child: Column(
@@ -136,20 +140,21 @@ class _ManagerDashboardState extends State<ManagerDashboard> {
                                 style: AppTypography.headlineSm.copyWith(color: AppColors.onBackground),
                               ),
                               Text(
-                                'Weightage: ${goal.weightage}% • Target: ${goal.target} ${goal.uomType.name}',
+                                'Weightage: ${goal.weightage.toInt()}%  ·  Target: ${goal.target} ${goal.uomType.shortLabel}  ·  ${goal.thrustArea.label}',
                                 style: AppTypography.bodySm.copyWith(color: AppColors.onSurfaceVariant),
                               ),
                             ],
                           ),
                         ),
-                        ElevatedButton(
+                        ElevatedButton.icon(
                           onPressed: () => context.go('/manager/approval/${goal.id}'),
+                          icon: const Icon(Icons.rate_review, size: 16),
+                          label: const Text('Review'),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.surfaceContainerHigh,
-                            foregroundColor: AppColors.onBackground,
+                            backgroundColor: AppColors.primaryContainer,
+                            foregroundColor: AppColors.primary,
                             elevation: 0,
                           ),
-                          child: const Text('Review'),
                         ),
                       ],
                     ),

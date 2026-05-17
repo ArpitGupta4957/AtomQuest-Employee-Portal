@@ -261,7 +261,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
     
     if (currentFocus == null) {
       return Container(
-        height: 250,
+        padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(
           color: AppColors.surfaceWhite,
           borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
@@ -272,7 +272,6 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
     }
 
     return Container(
-      height: 250,
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: AppColors.surfaceWhite,
@@ -320,7 +319,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          const Spacer(),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
