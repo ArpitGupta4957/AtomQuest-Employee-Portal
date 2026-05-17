@@ -37,11 +37,23 @@ class GoalProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // In a real app, you would fetch goals where the user's manager is managerId
-      // For now, we simulate fetching all goals for the team
-      // _goals = await _repository.getTeamGoals(managerId);
+      _goals = await _repository.getTeamGoals(managerId);
     } catch (e) {
       print('Error initializing manager goals: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> initializeForAdmin() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      _goals = await _repository.getAllGoals();
+    } catch (e) {
+      print('Error initializing admin goals: $e');
     } finally {
       _isLoading = false;
       notifyListeners();

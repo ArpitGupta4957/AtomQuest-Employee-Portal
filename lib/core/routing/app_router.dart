@@ -21,6 +21,11 @@ import '../../features/admin/admin_shell.dart';
 import '../../features/admin/screens/admin_dashboard.dart';
 import '../../features/admin/screens/shared_goal_management_screen.dart';
 import '../../features/admin/screens/organization_analytics_screen.dart';
+import '../../features/admin/screens/cycle_management_screen.dart';
+import '../../features/admin/screens/org_hierarchy_screen.dart';
+import '../../features/admin/screens/audit_trail_screen.dart';
+import '../../features/admin/screens/goal_unlock_screen.dart';
+import '../../features/admin/screens/achievement_report_screen.dart';
 
 /// GoRouter configuration with role-based routing.
 class AppRouter {
@@ -63,7 +68,6 @@ class AppRouter {
           path: '/login',
           builder: (context, state) => const LoginScreen(),
         ),
-
 
         // ── Employee Module ──
         ShellRoute(
@@ -160,6 +164,31 @@ class AppRouter {
                 GoRoute(
                   path: 'profile',
                   builder: (context, state) => const ProfileScreen(),
+                ),
+                GoRoute(
+                  path: 'cycles',
+                  builder: (context, state) => const CycleManagementScreen(),
+                ),
+                GoRoute(
+                  path: 'org',
+                  builder: (context, state) => const OrgHierarchyScreen(),
+                ),
+                GoRoute(
+                  path: 'audit',
+                  builder: (context, state) => const AuditTrailScreen(),
+                ),
+                GoRoute(
+                  path: 'goals/:id',
+                  builder: (context, state) =>
+                      GoalDetailScreen(goalId: state.pathParameters['id']!),
+                ),
+                GoRoute(
+                  path: 'unlock',
+                  builder: (context, state) => const GoalUnlockScreen(),
+                ),
+                GoRoute(
+                  path: 'report',
+                  builder: (context, state) => const AchievementReportScreen(),
                 ),
               ],
             ),

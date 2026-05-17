@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
@@ -38,7 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
       _passwordController.text.trim(),
     );
     if (!success && mounted) {
-      setState(() => _errorMessage = 'Invalid credentials. Please check your email and password.');
+      setState(
+        () => _errorMessage =
+            'Invalid credentials. Please check your email and password.',
+      );
     }
   }
 
@@ -112,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           const SizedBox(height: 24),
                           Text(
-                            'Innovate. Build. Transform. Welcome to the premier internal hackathon portal for engineering and product teams.',
+                            'Innovate. Build. Transform. Join us in shaping the future of smart home technology with AtomQuest.',
                             style: AppTypography.bodyMd.copyWith(
                               color: AppColors.onSurfaceVariant,
                             ),
@@ -158,9 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const SizedBox(height: 16),
                                 Text(
                                   'AtomQuest',
-                                  style: AppTypography.headlineLgMobile.copyWith(
-                                    color: AppColors.textCharcoal,
-                                  ),
+                                  style: AppTypography.headlineLgMobile
+                                      .copyWith(color: AppColors.textCharcoal),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
@@ -179,9 +180,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         // ── Sign In Header ──
                         Text(
                           'Sign In',
-                          style: (isDesktop ? AppTypography.headlineLg : AppTypography.headlineLgMobile).copyWith(
-                            color: AppColors.textCharcoal,
-                          ),
+                          style:
+                              (isDesktop
+                                      ? AppTypography.headlineLg
+                                      : AppTypography.headlineLgMobile)
+                                  .copyWith(color: AppColors.textCharcoal),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -205,18 +208,35 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'name@atomberg.com',
-                            prefixIcon: const Icon(Icons.mail_outline, size: 20, color: AppColors.textMuted),
+                            prefixIcon: const Icon(
+                              Icons.mail_outline,
+                              size: 20,
+                              color: AppColors.textMuted,
+                            ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                              borderSide: const BorderSide(color: AppColors.surfaceDim),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusMd,
+                              ),
+                              borderSide: const BorderSide(
+                                color: AppColors.surfaceDim,
+                              ),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                              borderSide: const BorderSide(color: AppColors.surfaceDim),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusMd,
+                              ),
+                              borderSide: const BorderSide(
+                                color: AppColors.surfaceDim,
+                              ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                              borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusMd,
+                              ),
+                              borderSide: const BorderSide(
+                                color: AppColors.primary,
+                                width: 2,
+                              ),
                             ),
                           ),
                         ),
@@ -249,26 +269,47 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: _obscurePassword,
                           decoration: InputDecoration(
                             hintText: '••••••••',
-                            prefixIcon: const Icon(Icons.lock_outline, size: 20, color: AppColors.textMuted),
+                            prefixIcon: const Icon(
+                              Icons.lock_outline,
+                              size: 20,
+                              color: AppColors.textMuted,
+                            ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 size: 20,
                                 color: AppColors.textMuted,
                               ),
-                              onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                              onPressed: () => setState(
+                                () => _obscurePassword = !_obscurePassword,
+                              ),
                             ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                              borderSide: const BorderSide(color: AppColors.surfaceDim),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusMd,
+                              ),
+                              borderSide: const BorderSide(
+                                color: AppColors.surfaceDim,
+                              ),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                              borderSide: const BorderSide(color: AppColors.surfaceDim),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusMd,
+                              ),
+                              borderSide: const BorderSide(
+                                color: AppColors.surfaceDim,
+                              ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-                              borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.radiusMd,
+                              ),
+                              borderSide: const BorderSide(
+                                color: AppColors.primary,
+                                width: 2,
+                              ),
                             ),
                           ),
                         ),
@@ -282,7 +323,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 20,
                               child: Checkbox(
                                 value: _rememberMe,
-                                onChanged: (v) => setState(() => _rememberMe = v ?? false),
+                                onChanged: (v) =>
+                                    setState(() => _rememberMe = v ?? false),
                                 activeColor: AppColors.primary,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4),
@@ -310,12 +352,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             child: Row(
                               children: [
-                                const Icon(Icons.error_outline, size: 16, color: AppColors.errorDeep),
+                                const Icon(
+                                  Icons.error_outline,
+                                  size: 16,
+                                  color: AppColors.errorDeep,
+                                ),
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
                                     _errorMessage!,
-                                    style: AppTypography.bodySm.copyWith(color: AppColors.errorDeep),
+                                    style: AppTypography.bodySm.copyWith(
+                                      color: AppColors.errorDeep,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -335,7 +383,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               backgroundColor: AppColors.primaryContainer,
                               foregroundColor: AppColors.textCharcoal,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
+                                borderRadius: BorderRadius.circular(
+                                  AppSpacing.radiusMd,
+                                ),
                               ),
                               elevation: 0,
                             ),
@@ -343,7 +393,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? const SizedBox(
                                     width: 20,
                                     height: 20,
-                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
                                   )
                                 : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -361,14 +413,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
 
-
                         const SizedBox(height: 48),
 
                         // ── Footer ──
                         Center(
                           child: RichText(
                             text: TextSpan(
-                              style: AppTypography.bodySm.copyWith(color: AppColors.textMuted),
+                              style: AppTypography.bodySm.copyWith(
+                                color: AppColors.textMuted,
+                              ),
                               children: [
                                 const TextSpan(text: 'Need assistance? '),
                                 TextSpan(

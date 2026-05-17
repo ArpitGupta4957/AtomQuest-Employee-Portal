@@ -20,6 +20,45 @@ class GoalRepository {
     }
   }
 
+  /// Fetch all goals in the system (Admin only)
+  Future<List<Goal>> getAllGoals() async {
+    try {
+      final response = await _supabase.client
+          .from('goals')
+          .select('*, quarterly_checkins(*)');
+
+      return (response as List).map((json) => _parseGoal(json)).toList();
+    } catch (e) {
+      print('Error fetching all goals: $e');
+      return [];
+    }
+  }
+
+  /// Fetch goals for a manager's team
+  Future<List<Goal>> getTeamGoals(String managerId) async {
+    try {
+      // Find all employees managed by this manager
+      final usersResponse = await _supabase.client
+          .from('users')
+          .select('id')
+          .eq('manager_id', managerId);
+          
+      final employeeIds = (usersResponse as List).map((u) => u['id'] as String).toList();
+      
+      if (employeeIds.isEmpty) return [];
+
+      final response = await _supabase.client
+          .from('goals')
+          .select('*, quarterly_checkins(*)')
+          .inFilter('employee_id', employeeIds);
+
+      return (response as List).map((json) => _parseGoal(json)).toList();
+    } catch (e) {
+      print('Error fetching team goals: $e');
+      return [];
+    }
+  }
+
   /// Create a new goal
   Future<Goal?> createGoal(Goal goal) async {
     try {
