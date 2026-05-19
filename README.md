@@ -50,7 +50,7 @@ The application is fully BRD-compliant with the **AtomQuest Hackathon 1.0** prob
 
 ## 🌐 Live Demo
 
-> **Deployed URL:** `https://atom-quest-employee-portal.vercel.app`
+> **Deployed URL:** `https://atom-quest-employee-portal-5ixh.vercel.app/`
 
 The portal is accessible in any modern web browser. No installation required.
 
